@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salesforce Interview · Candidate Questions</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f8fafc 0%, #eef2f6 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 40px -12px rgba(0, 20, 40, 0.35), 
+                  inset 0 1px 2px rgba(255, 255, 255, 0.8);
+      width: 100%;
+      max-width: 1100px;
+      padding: 2rem 2rem 2rem 2rem;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      border-bottom: 2px solid rgba(0, 112, 243, 0.15);
+      padding-bottom: 1.25rem;
+    }
+
+    .header h1 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #0b2b4a;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .header h1 span {
+      background: #0070f3;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 6px rgba(0, 112, 243, 0.3);
+    }
+
+    .candidate-selector {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-left: auto;
+    }
+
+    .candidate-selector label {
+      font-weight: 500;
+      color: #1e3a5f;
+      font-size: 1rem;
+      background: #e8edf5;
+      padding: 0.45rem 1rem;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+
+    .candidate-selector label i {
+      font-style: normal;
+      font-size: 1.1rem;
+    }
+
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%231e3a5f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 1rem center;
+      background-size: 1.2rem;
+      border: 1px solid #cfddee;
+      border-radius: 60px;
+      padding: 0.8rem 3rem 0.8rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #0b2b4a;
+      cursor: pointer;
+      box-shadow: 0 4px 10px -4px rgba(0, 40, 80, 0.15);
+      transition: all 0.15s;
+      min-width: 260px;
+    }
+
+    select:hover {
+      border-color: #0070f3;
+      box-shadow: 0 6px 14px -6px rgba(0, 112, 243, 0.3);
+    }
+
+    select:focus {
+      outline: 2px solid #0070f3;
+      outline-offset: 2px;
+      border-color: transparent;
+    }
+
+    .question-panel {
+      background: #ffffff;
+      border-radius: 2rem;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.02), 0 8px 20px -8px rgba(0, 30, 60, 0.15);
+      padding: 2rem 2rem 1.8rem 2rem;
+      border: 1px solid #e3eaf2;
+      transition: all 0.2s;
+      min-height: 400px;
+      max-height: 600px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #b6c9e0 #f0f4fa;
+    }
+
+    .question-panel::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .question-panel::-webkit-scrollbar-track {
+      background: #f0f4fa;
+      border-radius: 10px;
+    }
+
+    .question-panel::-webkit-scrollbar-thumb {
+      background: #b6c9e0;
+      border-radius: 10px;
+    }
+
+    .question-panel::-webkit-scrollbar-thumb:hover {
+      background: #8da9c9;
+    }
+
+    .candidate-name-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #e4edfa;
+      color: #0055b3;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.5rem 1.4rem;
+      border-radius: 60px;
+      margin-bottom: 1.5rem;
+      border: 1px solid #c5d9f0;
+      letter-spacing: 0.2px;
+    }
+
+    .question-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .question-list li {
+      background: #f9fcff;
+      border-left: 6px solid #0070f3;
+      padding: 1rem 1.5rem 1rem 1.8rem;
+      border-radius: 1rem 2rem 2rem 1rem;
+      font-size: 1.05rem;
+      color: #13293d;
+      line-height: 1.5;
+      font-weight: 450;
+      box-shadow: 0 2px 6px rgba(0, 30, 60, 0.04);
+      transition: all 0.1s;
+      border-right: 1px solid #e2ebf6;
+      border-top: 1px solid #e2ebf6;
+      border-bottom: 1px solid #e2ebf6;
+      word-break: break-word;
+    }
+
+    .question-list li:hover {
+      background: #ffffff;
+      border-left-width: 8px;
+      border-left-color: #1e5eb0;
+      box-shadow: 0 6px 14px -6px rgba(0, 80, 180, 0.25);
+      transform: scale(1.003);
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #60758e;
+      font-size: 1.1rem;
+      padding: 4rem 2rem;
+      text-align: center;
+      gap: 1rem;
+    }
+
+    .empty-state span {
+      font-size: 3rem;
+      opacity: 0.5;
+    }
+
+    .footer-note {
+      margin-top: 1rem;
+      text-align: right;
+      font-size: 0.8rem;
+      color: #7f96b0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 0.5rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .footer-note .count-badge {
+      background: #e0eaf5;
+      padding: 0.25rem 0.9rem;
+      border-radius: 40px;
+      font-weight: 500;
+      color: #1e4b7a;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 0.8rem;
+      }
+      .card {
+        padding: 1.5rem;
+      }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .candidate-selector {
+        width: 100%;
+        margin-left: 0;
+      }
+      select {
+        width: 100%;
+        min-width: unset;
+      }
+      .question-panel {
+        padding: 1.2rem;
+      }
+      .question-list li {
+        padding: 0.9rem 1rem 0.9rem 1.3rem;
+        font-size: 0.98rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h1>
+        <span>⚡</span> Salesforce Interview Questions
+      </h1>
+      <div class="candidate-selector">
+        <label for="candidateSelect"><i>👤</i> Candidate:</label>
+        <select id="candidateSelect" aria-label="Select candidate to view questions">
+          <!-- Options will be populated from JavaScript -->
+        </select>
+      </div>
+    </div>
+
+    <div class="question-panel" id="questionPanel">
+      <!-- Dynamic content: candidate badge & question list -->
+      <div class="empty-state" id="emptyState">
+        <span>📋</span>
+        <p>Please select a candidate from the dropdown</p>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <div class="count-badge" id="questionCount">0 questions</div>
+      <div>Salesforce Technical Consultant · Interview prep</div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      // --------------------------------------------------------------
+      // CANDIDATE DATA – extracted from the provided file
+      // --------------------------------------------------------------
+      const candidateData = {
+        "Candidate 1 – Salesforce (Technical Consultant)": [
+          "What do you understand by Salesforce, what do you think about Custom Objects, custom fields, relationships and how is Salesforce different from any other database application?",
+          "Explain the entire Salesforce security model.",
+          "What is Apex sharing, some scenario where you have used it?",
+          "With sharing, without sharing and inherited sharing in Salesforce. How are without sharing and inherited sharing different?",
+          "What is the maximum trigger depth in Salesforce?",
+          "How can you avoid recursive triggers? (Interviewer expects something more than just static Boolean variable approach because it is not the best approach to avoid recursion.)",
+          "Do you have experience on design patterns like singleton, factory etc.?",
+          "What kind of integration scenario have you worked on?",
+          "What do you mean by point-to-point integration?",
+          "What are the different annotations used in Apex test classes?",
+          "Use of testSetup method.",
+          "What is one scenario where you think you can use seeAllData=true?",
+          "Can you access custom metadata records in Apex test classes without seeAllData = true? And what about custom setting records?",
+          "What is Test.startTest() and Test.stopTest()?",
+          "I have a batch class for which I am writing a test class. I am calling the Database.executeBatch() method along with the instance of the batch but I am only getting coverage for the start method. What could be the reason?",
+          "Can you call a queueable from a queueable?",
+          "Can you call a queueable from a batch?",
+          "How many queueables can you call from a queueable or an asynchronous context and how many from a synchronous context?",
+          "What is queueable chaining?",
+          "Overall best practices of Apex.",
+          "Decorators in LWC.",
+          "I have a large JSON that I am displaying on the LWC and the changes made to the JSON are not reflecting on the UI. What can be the reason?",
+          "Wire vs imperative? Is wire reactive by default? If not how to make a wire method reactive?",
+          "Best practices of LWCs.",
+          "Do you know what is LWC OSS?",
+          "Did you follow best practices of LWC when you started initially working on it (be honest here.)?",
+          "Do you have experience on Copado? Do you have any experience on setting up Copado pipelines?",
+          "Given a JSON to create a wrapper class and update the custom object in Salesforce."
+        ],
+        "Candidate 2 – Salesforce (Technical Consultant R1)": [
+          "Introduction.",
+          "Asked whole Service Cloud features like Omnichannel, routing, escalation rules and some scenarios.",
+          "Scenario for manual sharing.",
+          "OWD is public read/write for user and there are 10 contacts in Salesforce but user is able to see 9 records only.",
+          "Write trigger to prevent user position record if already exist with active value. Check best practices are followed or not.",
+          "Integration and use of Streaming API in that.",
+          "Asked about the x (incomplete in source).",
+          "LWC parent to child communication scenarios.",
+          "Issue we can get when we are calling LWC class.",
+          "I create method in LWC but not able to call that one.",
+          "Render scenario is there. What is RenderedCallback and how to prevent code execution there?",
+          "Asked about XML file.",
+          "With Sharing and without sharing scenario.",
+          "Will user be able to create record if user doesn't have access of object in with sharing class which we are calling from LWC?"
+        ],
+        "Candidate 3 – Salesforce (Technical Consultant R2)": [
+          "Very deep dive into current project (why you did what you did, how you could have done it better?)",
+          "I mentioned about CTI integration, so asked about call log generation in Salesforce via standard APIs.",
+          "How have you handled edge cases in the code that you have written? (specific to your project)",
+          "Error retry and error logging mechanisms when inserting data into DB using Apex.",
+          "Performance impact while using @track decorators in LWC.",
+          "Explanation of the integration scenario I have worked on. The authentication technique used and the end-to-end flow.",
+          "Have you worked on setting up SSO? Do you have an idea on what is SSO?",
+          "Have you worked on Git commands?",
+          "I have a batch on accounts in which for each account I process, I want to send an email plus check a checkbox on the account. What would be your approach? Where would you send the email, in the execute method or in the start method? Will you be hitting any governor limits?",
+          "I have an LWC to display data to unauthenticated guest user in community. How will you give permission to the user and display data?",
+          "What if the user wants to create or update the records how do you give access?",
+          "I have an Apex method which I want to call in with sharing mode for internal authenticated users but for unauthenticated users I want to call it in without sharing mode. How would you achieve that?"
+        ],
+        "Candidate 4 – Salesforce (Technical Consultant R3)": [
+          "What was your team size in the agile project?",
+          "What proportion of your team was on shore vs off shore?",
+          "What is the requirement gathering process in your current project?",
+          "What was your team structure?",
+          "What was the size of the biggest team you were a part of? Was it all developers or others as well?",
+          "Have you been part of all agile project ceremonies?",
+          "How do you deal with external teams who have different style of functioning and different delivery timelines?",
+          "Have your stories ever spilled over and how do you plan better?",
+          "What was the story estimation techniques you used during sprint planning?",
+          "Suppose in the middle of the sprint you find that you estimated a story low. How do you go about re-estimating it?",
+          "What do you like better, agile or non-agile projects?",
+          "What was your sprint size and what was the number of sprints for each increment?",
+          "What do you think are the drawbacks of agile methodology?",
+          "How important is a good DevOps process in a project?",
+          "What deployment tool are you currently using in your project?",
+          "What are the drawbacks of change sets?",
+          "Suppose you are the only expert of a certain module in your project and for some reason you are unable to attend work. What would you do in such type of situation?",
+          "Suppose we have all of our upcoming sprints planned and the client comes up with a priority requirement that needs to be done in an earlier sprint but your team is out of capacity. How would you handle it?",
+          "How do you ensure that there is constant knowledge sharing sessions in your project?",
+          "Have you also worked on resolving production incidents? (L2 Support)"
+        ],
+        "Candidate 5 – Salesforce (Senior Technical Consultant – R1)": [
+          "Explain me about your work experience and projects.",
+          "Explain the entire sharing model in Salesforce in brief.",
+          "What does OWD do?",
+          "How to open access when OWD is set to Private?",
+          "What are their individual applications? When would you prefer one over the other?",
+          "When would you use role hierarchy? When would you use sharing rules?",
+          "How you manage object-level and field-level security in real-time and when would you use Profile and Permission Set?",
+          "Scenario: Let's say you created a permission set for a group of users. You assign them to a group of users. The permission set gave edit access on case object to the sales people. Now you don't want this permission to last forever. After a period, it has to end.",
+          "Why do you need Apex-based sharing and How do you share records in APEX?",
+          "How you will share a Job__c record with user Queue using Apex and write an Apex snippet.",
+          "Let's say you want to query all contacts and leads in your org with a particular email. Let's say manjunath@gmail.com. You want to query leads and contacts from your org with an email manjunath.gmail.com. How would you do that?",
+          "What would you do to avoid duplicates? You have your org. It's a marketing, it's a sales org. People use it for sales purpose. Sales activity. Now, there are lots of duplicate links and contacts getting created in your org. How would you avoid?",
+          "Define Matching rules and duplicate rules.",
+          "I want to query all Leads and Contacts just query all of them in one go. How do you do that?",
+          "What is the Difference between Time Component and Variant Component in LWC.",
+          "How Do you communicate between Child and parent and also tell me parent to child communication?",
+          "I have a parent and a child component. Now I want to set a length in centimetres property on child component. So parent component is passing length to the child component in meters. From parent I am passing length in meters to the child component. And the child component operates in centimetres.",
+          "Explain the Life Cycle Hooks, explain connectedCallback, renderedCallback.",
+          "What is Shadow Dom, why do we need this?",
+          "Explain the different ways we handle asynchronous execution in Apex.",
+          "You are required to communicate this information to a third-party legacy system using an exposed API endpoint. How would you accomplish this requirement?",
+          "When to use Queueable Apex, and how you do it in real-time when you're testing asynchronous Apex like Queueable, @future, or callouts, you need some extra handling in your test classes.",
+          "Difference between Synchronous and Asynchronous execution.",
+          "If you said asynchronous runs in a separate thread, you make a callout, and you leave it over there, right? You don't know when you're going to get the response. At some point of time, you're going to get it. It may be now, it may be after a few seconds. In such a scenario, how do you design your test class?",
+          "You are calling a future method. You want to write unit tests for your future method. And, it's all synchronous, obviously, it's a future method. And in your test class, how are you going to cover that piece of code?",
+          "What are best practices for Apex programming? One of your FX class doesn't have 75% coverage, but your average coverage of your entire code base is more than 75%. Is your deployment going to work?",
+          "Explain in detail DML Exceptions, How to Handle DML Exceptions, what are Setup objects and non-setup objects.",
+          "In your test class, you are creating a user, which is a setup object, and at the same time you are creating an opportunity. And, you are blocked by a Mixed DML exception. How do you solve this?",
+          "Let's say you want to count or summarize records as they are processed. So let's say you have BatchFX running on your accounts. Every night the batch runs and it does some processing. Now, let me say you want to count the number of accounts from energy industry that have been processed. Industry is a standard built-on account object and energy is one of the thickest values. Now when the batch runs every night, you want to count the number of accounts from energy industry that have been processed. How would you do this?",
+          "The moment a user clicks on it, this code snippet executes. Everything is fine, your development is done, QA is done, UAD is done, everything is passed, and then you go live with this feature. In production, users start complaining about the non-authorized endpoint exception. What could be the possible reason? Everything works in your lower region, but in production it is failing.",
+          "How do you authorize endpoints?",
+          "How to solve the \"Unauthorized endpoint\" error in Production?",
+          "The sales manager of your organization wants to view the average amount from Closed Won Opportunities. How will you achieve this, write code and show.",
+          "You need to ensure that shipping address is not left blank while creating or updating account records. You have shipping address filled on account. Every time when you create or edit an account, you have to ensure that shipping address is not left blank. Write a Trigger.",
+          "Every time an account's active field is changed to false, let's say you have an active custom field on account object. Every time its active field is changed to false, you want to mask email addresses of all the related contacts. Account will have its own contacts, right? Related contacts. Let's say in my system, I have an account IBM, and all its employees are IBM's contacts. Now when that account is actively changed to false, I want to mask emails of all the contacts. Write the code and explain."
+        ],
+        "Candidate 6 – Salesforce (Technical Support Engineer – 2 YOE)": [
+          "Self intro.",
+          "What is Asynchronous Apex and What are the types (Expecting PE and CDC)?",
+          "What is the life cycle of batch job?",
+          "For CPU timeout limit, what kind of operations will consider? (Won't consider database operations)",
+          "Types and Flows and briefly explain them (Expecting Platform Event trigger flow also).",
+          "How do you control the order execution for Record Trigger Flow?",
+          "What is flow template?",
+          "What is the file structure of the LWC component?",
+          "What is Lightning Message Channel and explain about it?",
+          "What is lifecycle hooks and explain them?",
+          "What are the ways to subscribe platform events?",
+          "Difference between Authentication and Authorization?",
+          "What is the difference between the Named Credentials and External Credentials?",
+          "What the authentication protocol you can select while creating External Credentials?",
+          "What is a Package and what it contains?",
+          "Difference between SOAP and REST?",
+          "How do you debug the credentials of SSO?",
+          "What is Bulk API and what is the difference between Serial mode and Parallel mode?",
+          "What are the deployment tools available in Salesforce?",
+          "Types of integrations in Salesforce?",
+          "What is Apex Flex Queue and why we use it?",
+          "Round 2 (Managerial Round): Self Intro.",
+          "What is your role in previous company and do you have any KPI's?",
+          "Do you often interact with your client?",
+          "Why do you choose this role?",
+          "What do you think about AI tools and Will AI replace our jobs in future?",
+          "Asked couple of questions on SLA (Service Line Agreement)?",
+          "What is your background? (from native place to previous company)",
+          "How do you work on tickets (depends on priority) and which method you follow?",
+          "She explained about expectations from the candidate for this role?",
+          "What are your hobbies, strengths and weaknesses?",
+          "Are you willing to work in shift timings and comfortable to work from office?",
+          "What is your approach if you get a ticket?",
+          "How do you handle a situation if you get a ticket which you don't know?",
+          "Where you will be in next 2 years in this company?"
+        ],
+        "Candidate 7 – Salesforce (Technical Consultant – Priyanka, 2.8 YOE)": [
+          "Brief Introduction.",
+          "Rate yourself in Apex, LWC out of 5?",
+          "What are the relationship?",
+          "What is record level security? Explain with an example.",
+          "What are the ways to get data from Apex in LWC?",
+          "Write an Apex code to get data from Apex in LWC using imperative method and on UI side use Lightning Data Table?",
+          "Given me a scenario where needs to create a wrapper class and call it from LWC?",
+          "What is 101 exception?",
+          "Write a SOQL for given account 'xyz' get the contact count?",
+          "What is recursive trigger?",
+          "How to do callouts from trigger?",
+          "Write a trigger to populate All Contact's Name in Account field (all_Contact_name) with ',' separated. Say Account -> a1, Contact -> c1 -> 'Amit Agnihotri', c2-> 'Priyanka Kumari'. Expected result - AllContactName__c = Amit Agnihotri, Priyanka Kumari.",
+          "What is asynchronous apex?",
+          "Why and when we use future method? Limitations of future method?",
+          "Write a batch class to update 10k account records in 500 chunks.",
+          "How to track failed jobs? And how we get the error message?",
+          "How to do callouts from batch?",
+          "Can we call batch from future?",
+          "Write the syntax of child to parent?",
+          "How we communicate between two unrelated component? And also write the syntax.",
+          "What are the decorators?",
+          "What is JavaScript?",
+          "What is undefined and null?",
+          "Which API you have worked on?",
+          "How we do integrate between two Salesforce org? Explain from starting - Connected app, Named credentials, Remote site setting.",
+          "Difference between Authorisation and Authentication.",
+          "Methods of REST API.",
+          "Why we use @testSetup method?",
+          "How many types of flows?",
+          "How to call Apex from flow?",
+          "How to call flow from LWC?"
+        ],
+        "Candidate 8 – Salesforce (Technical Consultant R1 – Additional)": [
+          "What is Remote Site settings?",
+          "What is connected app?",
+          "LWC lifecycle Hooks.",
+          "What is platform event and change data capture?",
+          "How to perform call-out and call-in?",
+          "Flows and it's types.",
+          "What is debugging?",
+          "How to overcome CPU time limit exception?",
+          "Scenario based question on sharing and security.",
+          "When to use Flows and Trigger.",
+          "What is dynamic SOQL?"
+        ],
+        "Candidate 9 – Salesforce (Technical Consultant – Additional Round)": [
+          "Introduction.",
+          "Asked whole Service Cloud features like Omnichannel, routing, escalation rule and some scenarios.",
+          "Scenario for manual sharing.",
+          "OWD is public read/write for user and there are 10 contacts in Salesforce but user is able to see 9 records only.",
+          "Write trigger to prevent user position record if already exist with active value. Check best practices are followed or not.",
+          "Integration and use of Streaming API in that.",
+          "Asked about the x.",
+          "LWC parent to child communication scenarios.",
+          "Issue we can get when we are calling LWC class.",
+          "I create method in LWC but not able to call that one.",
+          "Render scenario is there. What is RenderedCallback and how to prevent code execution there?",
+          "Asked about XML file.",
+          "With Sharing and without sharing scenario.",
+          "Will user be able to create record if user don't have access of object in with sharing class which we are calling from LWC."
+        ]
+      };
+
+      // --------------------------------------------------------------
+      // DOM elements
+      // --------------------------------------------------------------
+      const selectEl = document.getElementById('candidateSelect');
+      const panelEl = document.getElementById('questionPanel');
+      const countEl = document.getElementById('questionCount');
+
+      // --------------------------------------------------------------
+      // Helper: update question count badge
+      // --------------------------------------------------------------
+      function updateCount(count) {
+        countEl.textContent = count + ' question' + (count !== 1 ? 's' : '');
+      }
+
+      // --------------------------------------------------------------
+      // Render questions for selected candidate
+      // --------------------------------------------------------------
+      function renderCandidate(candidateKey) {
+        // Clear panel
+        panelEl.innerHTML = '';
+
+        if (!candidateKey || !candidateData[candidateKey]) {
+          // Empty state
+          panelEl.innerHTML = `
+            <div class="empty-state" id="emptyState">
+              <span>📋</span>
+              <p>Please select a candidate from the dropdown</p>
+            </div>
+          `;
+          updateCount(0);
+          return;
+        }
+
+        const questions = candidateData[candidateKey];
+        const count = questions.length;
+
+        // Candidate badge
+        const badge = document.createElement('div');
+        badge.className = 'candidate-name-badge';
+        badge.innerHTML = `<span>🧑‍💻</span> ${candidateKey}`;
+
+        // Question list container
+        const list = document.createElement('ul');
+        list.className = 'question-list';
+
+        questions.forEach((q, idx) => {
+          const li = document.createElement('li');
+          // Add numbering for readability
+          li.textContent = `${idx + 1}. ${q}`;
+          list.appendChild(li);
+        });
+
+        panelEl.appendChild(badge);
+        panelEl.appendChild(list);
+
+        updateCount(count);
+      }
+
+      // --------------------------------------------------------------
+      // Populate select dropdown with candidate keys
+      // --------------------------------------------------------------
+      function populateDropdown() {
+        const keys = Object.keys(candidateData);
+        // Clear any existing options (except placeholder if we want, but we'll set first)
+        selectEl.innerHTML = '';
+
+        // Add placeholder option
+        const placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = '-- Select a candidate --';
+        placeholder.disabled = false;
+        placeholder.selected = true;
+        selectEl.appendChild(placeholder);
+
+        // Add candidate options
+        keys.forEach(key => {
+          const option = document.createElement('option');
+          option.value = key;
+          option.textContent = key;
+          selectEl.appendChild(option);
+        });
+
+        // Set default to placeholder (already selected)
+        selectEl.value = '';
+      }
+
+      // --------------------------------------------------------------
+      // Event listener for dropdown change
+      // --------------------------------------------------------------
+      selectEl.addEventListener('change', (e) => {
+        const selected = e.target.value;
+        if (selected) {
+          renderCandidate(selected);
+        } else {
+          // Clear panel when placeholder selected (if possible)
+          panelEl.innerHTML = `
+            <div class="empty-state" id="emptyState">
+              <span>📋</span>
+              <p>Please select a candidate from the dropdown</p>
+            </div>
+          `;
+          updateCount(0);
+        }
+      });
+
+      // --------------------------------------------------------------
+      // Initialise the UI
+      // --------------------------------------------------------------
+      function init() {
+        populateDropdown();
+        // No candidate selected by default -> show empty state
+        renderCandidate('');
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
